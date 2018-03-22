@@ -33,6 +33,7 @@ import java.security.NoSuchAlgorithmException;
 public class OfficeOnlineServerController {
     @Autowired
     private OfficeOnlineServerService officeOnlineServerService;
+
     /**
      * 获取office在线预览链接
      *
@@ -48,7 +49,7 @@ public class OfficeOnlineServerController {
             @ApiImplicitParam(name = "fileName", value = "文件名称", paramType = "query", required = true, dataType = "string"),
             @ApiImplicitParam(name = "action", value = "操作类型", paramType = "query", required = true, dataType = "string")
     })
-    @RequestMapping(value = "/link/getLink", method = RequestMethod.GET)
+    @RequestMapping(value = "/link/getLink", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Result getLink(String fileName, String action, HttpServletRequest request) {
         Result result;
@@ -59,9 +60,9 @@ public class OfficeOnlineServerController {
         } else {
             String link = officeOnlineServerService.getLink(fileName, action, request);
             if (link != null) {
-                result = new Result(1, link);
+                result = new Result(1,"成功！", link);
             } else {
-                result = new Result(102, "待浏览文件URL不能为空！");
+                result = new Result(102, "无法获取预览连接！");
             }
         }
         return result;
@@ -70,6 +71,7 @@ public class OfficeOnlineServerController {
     /**
      * 获取文件属性
      * D:\bc_resource/resource/file/2017/12/15/20171215144937135WREV.docx
+     *
      * @param name 文件名称
      * @return
      * @throw
@@ -95,7 +97,7 @@ public class OfficeOnlineServerController {
             response.setHeader("X-WOPI-SessionContext", "SessionContext");
             out = response.getWriter();
             OfficeFileInfoDto dto = getFileInfo(filePath);
-            System.out.println("OfficeFileInfoDto:"+dto.toStringTrim());
+            System.out.println("OfficeFileInfoDto:" + dto.toStringTrim());
             out.print(dto.toStringTrim());
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,7 +123,7 @@ public class OfficeOnlineServerController {
     })
     @RequestMapping(value = "/files/{name}/contents", method = {RequestMethod.POST, RequestMethod.GET})
     public void getFile1(@PathVariable("name") String name, HttpServletResponse response) {
-        System.out.println("contents:"+name);
+        System.out.println("contents:" + name);
         officeOnlineServerService.getFile(Base64Util.getFromBase64(name), response);
     }
 
@@ -149,6 +151,7 @@ public class OfficeOnlineServerController {
         }
         return dto;
     }
+
     /**
      * 获取文件SHA256
      *

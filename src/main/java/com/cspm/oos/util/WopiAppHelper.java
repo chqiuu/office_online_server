@@ -17,6 +17,7 @@ public class WopiAppHelper {
     private static String wopiHostFormatPdf = "%s?PdfMode=1&WOPISrc=%s&access_token=%s";
 
     public static void main(String[] args) throws Exception {
+        //
         String fileName = "http://s0.sciencepeditor.com/resource/file/2017/12/15/20171215144937135WREV.docx";
         System.out.println(fileName.substring(fileName.indexOf("/resource/")));
         String wopiHostAndFile = "http://oos.sciencepeditor.com/bc/wopi/files/" + Base64Util.getBase64(fileName);
