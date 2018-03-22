@@ -1,0 +1,23 @@
+# IDENTITY (ContextIdApplicationContextInitializer)
+spring:
+  application:
+    index: 1
+    name: Boot
+  mvc:
+    favicon:
+      enabled: true
+    view:
+      suffix: .jsp
+
+server:
+  port: 82
+  contextPath: /oos
+  error:
+    path: /error
+  tomcat:
+    max-threads: 800
+    uri-encoding: UTF-8
+  session:
+    timeout: 60
+sys:
+  resource: D:\bc_resource

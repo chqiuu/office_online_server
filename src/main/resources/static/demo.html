@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+        body {
+            font-family: "微软雅黑";
+            position: relative;
+        }
+
+        .demo_div {
+            width: 97%;
+            margin: auto;
+            overflow: hidden;
+            margin-top: 20px;
+            border: #909090 1px solid;
+            background: #fff;
+            color: #333;
+            filter: progid:DXImageTransform.Microsoft.Shadow(color=#909090, direction=120, strength=4);
+            /*兼容ie*/
+            -moz-box-shadow: 2px 2px 10px #909090;
+            /*兼容firefox*/
+            -webkit-box-shadow: 2px 2px 10px #909090;
+            /*兼容safari或chrome*/
+            box-shadow: 2px 2px 10px #909090;
+            /*兼容opera或ie9*/
+        }
+
+        .demo_div:HOVER {
+            -webkit-transition: borderlinear .2s, -webkit-box-shadowlinear .5s;
+            -webkit-box-shadow: 0 0 18px rgba(32, 90, 166, 3);
+            border-color: rgba(32, 90, 166, 0.6);
+            -moz-outline: 18px solid rgba(32, 90, 166, 3);
+            -moz-outline-radius: 18px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h3 {
+            color: rgba(218, 45, 28, 1);
+        }
+    </style>
+    <title>DEMO</title>
+</head>
+<body>
+<h1>DEMO</h1>
+<div class="demo_div lunquan">
+    <h3>
+        API&nbsp;&nbsp;<label id="serverIp">当前服务器：</label>
+    </h3>
+    <a href="swagger-ui-3.0.6/dist/index.html" target="_blank">前端API</a>&nbsp;&nbsp;
+    <a href="../v2/api-docs" target="_blank">API_JSON</a>&nbsp;&nbsp;
+    <a href="js/lib/ueditor/index.html" target="_blank">UEditor</a>
+</div>
+<div class="demo_div">
+    <h3>监控</h3>
+    <hr/>
+    <a href="../admin/druid/" target="_blank">druid监控</a>
+</div>
+<div class="demo_div">
+    <h3>下载</h3>
+    <hr/>
+    <a href="aliyunDownload.html" target="_blank">aliyunDownload</a>
+</div>
+</body>
+</html>
