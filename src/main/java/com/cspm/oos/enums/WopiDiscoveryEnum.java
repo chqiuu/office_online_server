@@ -119,7 +119,7 @@ public enum WopiDiscoveryEnum {
                     http://owas.sciencepeditor.com
                     http://oos.sciencepeditor.com
                  */
-                e.setUrlsrc(e.getUrlsrc().replaceAll("<OOS>", "http://oos.sciencepeditor.net"));
+                e.setUrlsrc(e.getUrlsrc().replaceAll("<OOS>", "http://oos.sciencepeditor.com"));
                 return e;
             }
         }

@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="office_online_server" target="1.7" />
+      <module name="office_online_server" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

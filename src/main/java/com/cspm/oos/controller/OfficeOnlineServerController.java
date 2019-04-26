@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,20 +28,23 @@ import java.security.NoSuchAlgorithmException;
  * @author CHENQUAN
  * @date 2018年3月21日
  */
+@Slf4j
 @Controller
 @RequestMapping("/wopi")
 @Api(value = "/wopi", description = "在线预览Office文件服务")
 public class OfficeOnlineServerController {
+    private final OfficeOnlineServerService officeOnlineServerService;
+
     @Autowired
-    private OfficeOnlineServerService officeOnlineServerService;
+    public OfficeOnlineServerController(OfficeOnlineServerService officeOnlineServerService) {
+        this.officeOnlineServerService = officeOnlineServerService;
+    }
 
     /**
      * 获取office在线预览链接
      *
      * @param fileName 文件名称
      * @param action   操作类型
-     * @param request
-     * @return
      * @author CHENQUAN
      * @date 2017年9月14日
      */
@@ -60,7 +64,7 @@ public class OfficeOnlineServerController {
         } else {
             String link = officeOnlineServerService.getLink(fileName, action, request);
             if (link != null) {
-                result = new Result(1,"成功！", link);
+                result = new Result(1, "成功！", link);
             } else {
                 result = new Result(102, "无法获取预览连接！");
             }
@@ -73,8 +77,6 @@ public class OfficeOnlineServerController {
      * D:\bc_resource/resource/file/2017/12/15/20171215144937135WREV.docx
      *
      * @param name 文件名称
-     * @return
-     * @throw
      * @author CHENQUAN
      * @date 2017年9月14日
      */
@@ -84,7 +86,8 @@ public class OfficeOnlineServerController {
             @ApiImplicitParam(name = "access_token", value = "访问令牌", paramType = "query", required = true, dataType = "string")
     })
     @RequestMapping(value = "/files/{name}", method = RequestMethod.GET)
-    public void getFileInfo(@PathVariable("name") String name, @RequestParam("access_token") String accessToken, HttpServletResponse response) {
+    public void getFileInfo(@PathVariable("name") String name, @RequestParam("access_token") String accessToken,
+                            HttpServletResponse response) {
         if (StringUtils.isEmpty(name)) {
             return;
         }
@@ -97,7 +100,7 @@ public class OfficeOnlineServerController {
             response.setHeader("X-WOPI-SessionContext", "SessionContext");
             out = response.getWriter();
             OfficeFileInfoDto dto = getFileInfo(filePath);
-            System.out.println("OfficeFileInfoDto:" + dto.toStringTrim());
+            log.info(dto.toStringTrim());
             out.print(dto.toStringTrim());
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,8 +115,6 @@ public class OfficeOnlineServerController {
      * 获取文件内容
      *
      * @param name 获取文件内容
-     * @return
-     * @throw
      * @author CHENQUAN
      * @date 2017年9月14日
      */
@@ -123,7 +124,6 @@ public class OfficeOnlineServerController {
     })
     @RequestMapping(value = "/files/{name}/contents", method = {RequestMethod.POST, RequestMethod.GET})
     public void getFile1(@PathVariable("name") String name, HttpServletResponse response) {
-        System.out.println("contents:" + name);
         officeOnlineServerService.getFile(Base64Util.getFromBase64(name), response);
     }
 
@@ -132,11 +132,11 @@ public class OfficeOnlineServerController {
      * 获取文件基本信息
      *
      * @param filePath 文件路径
-     * @return
+     * @return OfficeFileInfoDto
      * @author CHENQUAN
      * @date 2017年9月14日
      */
-    public OfficeFileInfoDto getFileInfo(String filePath) {
+    private OfficeFileInfoDto getFileInfo(String filePath) {
         File file = new File(filePath);
         OfficeFileInfoDto dto = new OfficeFileInfoDto();
         if (file.exists()) {
@@ -156,7 +156,7 @@ public class OfficeOnlineServerController {
      * 获取文件SHA256
      *
      * @param file 文件
-     * @return
+     * @return SHA256
      * @author CHENQUAN
      * @date 2017年9月14日
      */
@@ -180,11 +180,7 @@ public class OfficeOnlineServerController {
 
             fis.close();
             value = new String(Base64.encodeBase64(complete.digest()));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (NoSuchAlgorithmException | IOException e) {
             e.printStackTrace();
         }
         return value;
