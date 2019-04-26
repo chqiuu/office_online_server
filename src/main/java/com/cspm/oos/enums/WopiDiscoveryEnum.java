@@ -54,7 +54,9 @@ public enum WopiDiscoveryEnum {
     WordPdf_mobileView_pdf(ActionEnum.MOBILE_VIEW, "pdf", null, null, "<OOS>/wv/wordviewerframe.aspx?PdfMode=1&<ui=UI_LLCC&><rs=DC_LLCC&><showpagestats=PERFSTATS&>"),
     WordPdf_embedview_pdf(ActionEnum.EMBED_VEIW, "pdf", null, null, "<OOS>/wv/wordviewerframe.aspx?embed=1&PdfMode=1&<ui=UI_LLCC&><rs=DC_LLCC&><showpagestats=PERFSTATS&>");
 
-    //操作类型
+    /**
+     * 操作类型
+     */
     private ActionEnum action;
     private String ext;
     private Boolean isDefault;
@@ -109,7 +111,7 @@ public enum WopiDiscoveryEnum {
         this.urlsrc = urlsrc;
     }
 
-    public static WopiDiscoveryEnum getActionExt(ActionEnum action, String ext) {
+    public static WopiDiscoveryEnum getActionExt(ActionEnum action, String ext, String oosUrl) {
         for (WopiDiscoveryEnum e : WopiDiscoveryEnum.values()) {
             if (e.getAction().equals(action) && e.getExt().equals(ext)) {
                 /*
@@ -119,7 +121,7 @@ public enum WopiDiscoveryEnum {
                     http://owas.sciencepeditor.com
                     http://oos.sciencepeditor.com
                  */
-                e.setUrlsrc(e.getUrlsrc().replaceAll("<OOS>", "http://oos.sciencepeditor.com"));
+                e.setUrlsrc(e.getUrlsrc().replaceAll("<OOS>", oosUrl));
                 return e;
             }
         }

@@ -1,9 +1,10 @@
 package com.cspm.oos.service.impl;
 
+import com.cspm.oos.config.OfficeOnlineServerProperties;
 import com.cspm.oos.service.OfficeOnlineServerService;
 import com.cspm.oos.util.Base64Util;
 import com.cspm.oos.util.WopiAppHelper;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +14,12 @@ import java.io.*;
 @Service
 public class OfficeOnlineServerServiceImpl implements OfficeOnlineServerService {
 
-    /**
-     * 静态资源根路径
-     */
-    @Value("${sys.resource}")
-    private String rescourceRoot;
+    private final OfficeOnlineServerProperties properties;
+
+    @Autowired
+    public OfficeOnlineServerServiceImpl(OfficeOnlineServerProperties properties) {
+        this.properties = properties;
+    }
 
     /**
      * 根据文件名获取文件绝对路径
@@ -29,7 +31,7 @@ public class OfficeOnlineServerServiceImpl implements OfficeOnlineServerService 
      */
     @Override
     public String getFilePath(String name) {
-        return rescourceRoot + name.substring(name.indexOf("/resource/"));
+        return properties.getLocalResourcePath() + name.substring(name.indexOf("/resource/"));
     }
 
     /**
@@ -88,7 +90,7 @@ public class OfficeOnlineServerServiceImpl implements OfficeOnlineServerService 
         //得到当前系统WOPI接口完整URL
         String wopiServer = serverURL + "/wopi/files/";
         try {
-            return WopiAppHelper.getDocumentLink(wopiServer + Base64Util.getBase64(fileName),
+            return WopiAppHelper.getDocumentLink(properties.getOosUrl(), wopiServer + Base64Util.getBase64(fileName),
                     fileName.substring(fileName.lastIndexOf('.') + 1), action);
         } catch (Exception e) {
             return null;
