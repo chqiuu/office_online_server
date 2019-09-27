@@ -31,7 +31,15 @@ public class OfficeOnlineServerServiceImpl implements OfficeOnlineServerService 
      */
     @Override
     public String getFilePath(String name) {
-        return properties.getLocalResourcePath() + name.substring(name.indexOf("/resource/"));
+String relativePath="";
+        if(name.contains("/resource/")){
+            relativePath=name.substring(name.indexOf("/resource/"));
+        }else if(name.contains("/br/")){
+            relativePath=name.substring(name.indexOf("/br/"));
+        }else {
+            relativePath=name.substring(name.indexOf(".com/")+4);
+        }
+        return properties.getLocalResourcePath() +relativePath ;
     }
 
     /**

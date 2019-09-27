@@ -78,10 +78,10 @@ public class WopiAppHelper {
 
         wopiHostAndFile = URLEncoder.encode(wopiHostAndFile, "UTF-8");
         if (ext.contains("pdf")) {
-            String wopiHostFormatPdf = "%s?PdfMode=1&WOPISrc=%s&access_token=%s";
+            String wopiHostFormatPdf = "%s?PdfMode=1&WOPISrc=%s&access_token=%s&ui=zh-CN&rs=zh-CN";
             fullPath = String.format(wopiHostFormatPdf, endAction, wopiHostAndFile, accessToken);
         } else {
-            String wopiHostFormat = "%s?WOPISrc=%s&access_token=%s";
+            String wopiHostFormat = "%s?WOPISrc=%s&access_token=%s&ui=zh-CN&rs=zh-CN";
             fullPath = String.format(wopiHostFormat, endAction, wopiHostAndFile, accessToken);
         }
         return fullPath;

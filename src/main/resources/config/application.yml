@@ -22,6 +22,8 @@ logging:
   file: logs\oos_log.log
   level: info
 oos:
-  local-resource-path: D:\bc_resource
+  local-resource-path: D:\resource
   swagger-enable: true
-  oos-url: http://oos.sciencepeditor.com
+  #oos-url: http://oos.it-teaching.com
+  #oos-url: https://docview.mingdao.com
+  #oos-url: http://office.scaqjg.com
