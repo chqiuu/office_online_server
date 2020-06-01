@@ -61,3 +61,4 @@ crashlytics-build.properties
 fabric.properties
 # Default ignored files
 /workspace.xml
+libraries

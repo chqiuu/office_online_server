@@ -31,7 +31,7 @@ import java.security.NoSuchAlgorithmException;
 @Slf4j
 @Controller
 @RequestMapping("/wopi")
-@Api(value = "/wopi", description = "在线预览Office文件服务")
+@Api(value = "/wopi", tags = "在线预览Office文件服务")
 public class OfficeOnlineServerController {
     private final OfficeOnlineServerService officeOnlineServerService;
 
